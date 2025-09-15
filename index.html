@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vongole Veraci - E-commerce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .product-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .product-image img{
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .product-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .pricing-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .pricing-card {
+            background: white;
+            border: 3px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .gdpr-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 4px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .shipping-info {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .whatsapp-contact {
+            background: #25d366;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .whatsapp-contact a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo"><img src="./images/Logo vong.png" alt=""></div>
+                <div class="auth-buttons">
+                    <button class="btn btn-secondary" onclick="openModal('loginModal')">Accedi</button>
+                    <button class="btn btn-primary" onclick="openModal('registerModal')">Registrati</button>
+                    <button id="logoutBtn" class="btn btn-secondary hidden" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div id="userInfo" class="user-info hidden">
+            <h3>Benvenuto, <span id="userName"></span>!</h3>
+            <p>Tipo cliente: <span id="userType"></span></p>
+            <p>I tuoi prezzi speciali sono attivi.</p>
+        </div>
+
+        <div class="main-content">
+            <div class="product-section">
+                <div class="product-image">
+                    <img src="./images/Cattura Vong Cotte.png" alt="">
+                </div>
+                <h2 class="product-title">Vongole Veraci Ruditapes Filipinarum</h2>
+                
+                <div class="product-details">
+                    <h3>Dettagli Prodotto</h3>
+                    <p><strong>Origine:</strong> Corea del Sud</p>
+                    <p><strong>Nome Scientifico:</strong> Ruditapes Filipinarum</p>
+                    <p><strong>Dimensioni:</strong> 60-80 pezzi al Kg</p>
+                    <p><strong>Formato:</strong> 6 Kg IQF (6 buste da 1 Kg)</p>
+                </div>
+
+                <div class="product-details">
+                    <h3>Istruzioni per l'uso</h3>
+                    <p>Per cuocere a vapore, cuocere al forno o bollire, utilizzare il prodotto senza scongelarlo. Le vongole sono congelate una ad una quindi possono essere utilizzate nella quantità desiderata.</p>
+                    <p>Per altre preparazioni immergere le vongole in un po' di acqua fredda salata finché non si apriranno leggermente. Sciacquare, lasciare scolare e utilizzare come prodotto fresco.</p>
+                </div>
+
+                <div class="shipping-info">
+                    <h3>Costi di Spedizione</h3>
+                    <ul>
+                        <li>Fino a 3 Kg: € 20,00</li>
+                        <li>Da 3,1 a 5 Kg: € 22,00</li>
+                        <li>Da 5,1 a 10 Kg: € 24,00</li>
+                        <li>Da 10,1 a 20 Kg: € 32,00</li>
+                        <li>Oltre 20 Kg: € 1,40 per ogni Kg in più</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pricing-section">
+                <h2>Prezzi per Categoria Cliente</h2>
+                
+                <div class="pricing-card featured">
+                    <h3>👤 Cliente Privato</h3>
+                    <div class="price">€ 18,50 IVA inclusa</div>
+                    <p>Ordine minimo: € 35,00</p>
+                    <p>Vendita online diretta</p>
+                    <button class="btn btn-primary" onclick="addToCart('private')">Acquista Ora</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>🏪 Ristoranti / Pescherie</h3>
+                    <div id="restaurantPrice" class="price hidden">€ 15,00 + IVA</div>
+                    <div id="restaurantLogin" class="price">Accedi per vedere il prezzo</div>
+                    <p>Vendita minima: 1 scatola (6 confezioni da 1 Kg)</p>
+                    <p>Poi incrementi di 6 Kg</p>
+                    <div id="restaurantActions" class="hidden">
+                        <button class="btn btn-primary" onclick="addToCart('restaurant')">Aggiungi al Carrello</button>
+                        <div class="whatsapp-contact">
+                            <p>Per ordini contattaci su WhatsApp:</p>
+                            <a href="https://wa.me/393281234567" target="_blank">📱 Contatta su WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>🏭 Grossisti / Distributori</h3>
+                    <div id="wholesalePrice" class="price hidden">€ 12,50 + IVA</div>
+                    <div id="wholesaleLogin" class="price">Accedi per vedere il prezzo</div>
+                    <p>Vendita minima: 200 Kg</p>
+                    <p>Pallet completo: 720 Kg</p>
+                    <div id="wholesaleActions" class="hidden">
+                        <div class="product-details">
+                            <h4>Vongole Veraci Sfuse</h4>
+                            <p>Pallet da 720 Kg: € 9,60 + IVA 10%</p>
+                            <p>Spese di spedizione incluse</p>
+                        </div>
+                        <div class="whatsapp-contact">
+                            <p>Per ordini grossisti contattaci su WhatsApp:</p>
+                            <a href="https://wa.me/393281234567" target="_blank">📱 Contatta su WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Accedi</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Accedi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Registrazione</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Nome Completo:</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefono:</label>
+                    <input type="tel" id="regPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Cliente:</label>
+                    <select id="regClientType" required>
+                        <option value="">Seleziona...</option>
+                        <option value="private">Cliente Privato</option>
+                        <option value="restaurant">Ristorante/Pescheria</option>
+                        <option value="wholesale">Grossista/Distributore</option>
+                    </select>
+                </div>
+                
+                <div id="businessFields" class="hidden">
+                    <div class="form-group">
+                        <label>Ragione Sociale:</label>
+                        <input type="text" id="regCompany">
+                    </div>
+                    <div class="form-group">
+                        <label>Partita IVA:</label>
+                        <input type="text" id="regVat">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Indirizzo:</label>
+                    <input type="text" id="regAddress" required>
+                </div>
+
+                <!-- GDPR Section -->
+                <div class="gdpr-section">
+                    <h3>Privacy e Consensi (GDPR)</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="gdprConsent" required>
+                        <label for="gdprConsent">
+                            Accetto il trattamento dei dati personali secondo la Privacy Policy (obbligatorio)
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="marketingConsent">
+                        <label for="marketingConsent">
+                            Accetto di ricevere comunicazioni commerciali e newsletter (facoltativo)
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="profilingConsent">
+                        <label for="profilingConsent">
+                            Accetto il trattamento dei dati per profilazione e marketing personalizzato (facoltativo)
+                        </label>
+                    </div>
+                    <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                        I tuoi dati saranno trattati in conformità al GDPR (Regolamento UE 2016/679). 
+                        Puoi esercitare i tuoi diritti di accesso, rettifica, cancellazione e portabilità 
+                        contattandoci all'indirizzo privacy@vongoleveraci.com
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Registrati</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // User management
+        let currentUser = null;
+        let users = {}; // In a real app, this would be a database
+        let cart = [];
+
+        // Modal management
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Registration form handling
+        document.getElementById('regClientType').addEventListener('change', function() {
+            const businessFields = document.getElementById('businessFields');
+            if (this.value === 'restaurant' || this.value === 'wholesale') {
+                businessFields.classList.remove('hidden');
+            } else {
+                businessFields.classList.add('hidden');
+            }
+        });
+
+        // Registration
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                phone: document.getElementById('regPhone').value,
+                clientType: document.getElementById('regClientType').value,
+                company: document.getElementById('regCompany').value,
+                vat: document.getElementById('regVat').value,
+                address: document.getElementById('regAddress').value,
+                gdprConsent: document.getElementById('gdprConsent').checked,
+                marketingConsent: document.getElementById('marketingConsent').checked,
+                profilingConsent: document.getElementById('profilingConsent').checked,
+                registrationDate: new Date().toISOString()
+            };
+
+            if (!formData.gdprConsent) {
+                alert('È necessario accettare il trattamento dei dati personali per procedere.');
+                return;
+            }
+
+            // Store user (in a real app, this would be sent to a server)
+            users[formData.email] = formData;
+            
+            alert('Registrazione completata con successo!');
+            closeModal('registerModal');
+            
+            // Auto login after registration
+            currentUser = formData;
+            updateUserInterface();
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (users[email] && users[email].password === password) {
+                currentUser = users[email];
+                updateUserInterface();
+                closeModal('loginModal');
+                alert('Login effettuato con successo!');
+            } else {
+                alert('Credenziali non valide!');
+            }
+        });
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            updateUserInterface();
+            alert('Logout effettuato con successo!');
+        }
+
+        // Update UI based on user status
+        function updateUserInterface() {
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+            const userType = document.getElementById('userType');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const authButtons = document.querySelector('.auth-buttons .btn-secondary, .auth-buttons .btn-primary');
+
+            if (currentUser) {
+                userInfo.classList.remove('hidden');
+                userName.textContent = currentUser.name;
+                userType.textContent = getClientTypeName(currentUser.clientType);
+                logoutBtn.classList.remove('hidden');
+                
+                // Hide login/register buttons
+                document.querySelectorAll('.auth-buttons .btn').forEach(btn => {
+                    if (btn.id !== 'logoutBtn') {
+                        btn.classList.add('hidden');
+                    }
+                });
+
+                // Show prices and actions based on client type
+                updatePricingDisplay();
+            } else {
+                userInfo.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
+                
+                // Show login/register buttons
+                document.querySelectorAll('.auth-buttons .btn').forEach(btn => {
+                    if (btn.id !== 'logoutBtn') {
+                        btn.classList.remove('hidden');
+                    }
+                });
+
+                // Hide business client prices
+                hidePricingDisplay();
+            }
+        }
+
+        function getClientTypeName(type) {
+            switch(type) {
+                case 'private': return 'Cliente Privato';
+                case 'restaurant': return 'Ristorante/Pescheria';
+                case 'wholesale': return 'Grossista/Distributore';
+                default: return type;
+            }
+        }
+
+        function updatePricingDisplay() {
+            if (currentUser.clientType === 'restaurant') {
+                document.getElementById('restaurantPrice').classList.remove('hidden');
+                document.getElementById('restaurantLogin').classList.add('hidden');
+                document.getElementById('restaurantActions').classList.remove('hidden');
+            } else if (currentUser.clientType === 'wholesale') {
+                document.getElementById('wholesalePrice').classList.remove('hidden');
+                document.getElementById('wholesaleLogin').classList.add('hidden');
+                document.getElementById('wholesaleActions').classList.remove('hidden');
+            }
+        }
+
+        function hidePricingDisplay() {
+            document.getElementById('restaurantPrice').classList.add('hidden');
+            document.getElementById('restaurantLogin').classList.remove('hidden');
+            document.getElementById('restaurantActions').classList.add('hidden');
+            document.getElementById('wholesalePrice').classList.add('hidden');
+            document.getElementById('wholesaleLogin').classList.remove('hidden');
+            document.getElementById('wholesaleActions').classList.add('hidden');
+        }
+
+        // Add to cart functionality
+        function addToCart(clientType) {
+            if (!currentUser && clientType !== 'private') {
+                alert('Devi effettuare il login per vedere i prezzi e acquistare.');
+                openModal('loginModal');
+                return;
+            }
+
+            let price, minOrder;
+            switch(clientType) {
+                case 'private':
+                    price = 18.50;
+                    minOrder = 35.00;
+                    break;
+                case 'restaurant':
+                    price = 15.00;
+                    minOrder = 90.00; // 6 kg minimum
+                    break;
+                case 'wholesale':
+                    price = 12.50;
+                    minOrder = 2500.00; // 200 kg minimum
+                    break;
+            }
+
+            if (clientType === 'private') {
+                const quantity = prompt('Inserisci la quantità (Kg):');
+                if (quantity && parseFloat(quantity) > 0) {
+                    const total = parseFloat(quantity) * price;
+                    if (total >= minOrder) {
+                        alert(`Prodotto aggiunto al carrello!\nQuantità: ${quantity} Kg\nTotale: € ${total.toFixed(2)}`);
+                    } else {
+                        alert(`Ordine minimo: € ${minOrder.toFixed(2)}`);
+                    }
+                }
+            } else {
+                alert(`Per procedere con l'ordine, contattaci su WhatsApp. Saremo lieti di assisterti!`);
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserInterface();
+        });
+    </script>
+</body>
+</html>
